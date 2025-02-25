@@ -51,16 +51,17 @@ def calculate_similarity(curves):
 
                 # 2. 计算余弦相似度  
                 cosine_similarity = 1 - cosine(curves[i], curves[j])  
-                similarity_matrix[i][j] = max(similarity_matrix[i][j], cosine_similarity)  
+                similarity_matrix[i][j] = min(similarity_matrix[i][j], cosine_similarity)  
 
                 # 3. 计算皮尔逊相关系数  
                 pearson_corr, _ = pearsonr(curves[i], curves[j])  
-                similarity_matrix[i][j] = max(similarity_matrix[i][j], pearson_corr)  
+                similarity_matrix[i][j] = min(similarity_matrix[i][j], pearson_corr)  
 
                 # 4. 动态时间规整（DTW）  
                 dtw_distance, _ = fastdtw(curves[i], curves[j])  
                 dtw_similarity = 1 / (1 + dtw_distance)  
-                similarity_matrix[i][j] = max(similarity_matrix[i][j], dtw_similarity) 
+                similarity_matrix[i][j] = min(similarity_matrix[i][j], dtw_similarity) 
+
                 upper_triangle_indices = np.triu_indices(len(curves), k=1)  
                 average_similarity = np.mean(similarity_matrix[upper_triangle_indices])   
 
@@ -158,13 +159,18 @@ if __name__ == '__main__':
             globals()[f'var{j}'] = np.squeeze(globals()[f'var{j}'])    
             curves.append(globals()[f'var{j}'])
             plt.plot(x_Freq, globals()[f'var{j}'], label='bnn'+str(j), color=color[j], linewidth=1.5)       # 画CNN网络预测的曲线
+        average_similarity1=calculate_similarity(curves)              
+        mean_vector = np.mean(curves, axis=0) 
+        plt.plot(x_Freq, mean_vector, label='mean', color='k', linewidth=1.5,linestyle=':')  
+        curves.clear()  
+        curves.append(mean_vector)  
         curves.append(y_Label)  
-        average_similarity=calculate_similarity(curves)
+        average_similarity2=calculate_similarity(curves)
     # 预测曲线作图
 
 
         # 设置图表的标题，横坐标与纵坐标的名称
-        plt.title(f'Overall Similarity: {average_similarity:.4f}\nzjh')
+        plt.title(f'Predict Similarity: {average_similarity1:.4f}\nOverall Similarity: {average_similarity2:.4f}')
         plt.xlabel("Freq / GHz", fontsize=12)
         plt.ylabel("RL / dB", fontsize=12)
 
