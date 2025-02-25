@@ -1,0 +1,5 @@
+""
+train_AvgLoss
+val_AvgLoss
+train_AvgAccuracy
+val_AvgAccuracy
