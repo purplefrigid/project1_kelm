@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from random import choice
 import pandas as pd  
 import random
-Project_folder = "D:\\keti\\zjh\\wl\\"                 # 项目文件夹路径
+Project_folder = ".\\"                 # 项目文件夹路径
 # Project_folder = "G:\\SunHY\\Code\\[MLHB]\\"
 
 """定义超参数"""
