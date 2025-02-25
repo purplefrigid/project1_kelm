@@ -13,7 +13,7 @@ from F_model_8paras import F_Net_1D,F_Net_2D
 
 BATCH_SIZE = 200  
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")  
-Project_folder = "D:\\keti\\zjh\\wl\\" 
+Project_folder = ".\\" 
 mh_train = MH_Data(Project_folder + 'train.xlsx')
 mh_val = MH_Data(Project_folder + 'test.xlsx')
 train_loader = DataLoader(batch_size=BATCH_SIZE, dataset=mh_train, shuffle=True, drop_last=True,
@@ -22,7 +22,7 @@ val_loader = DataLoader(batch_size=20, dataset=mh_val, shuffle=True,
                             num_workers=1, pin_memory=True, persistent_workers=True)
 
 # net =  F_Net_2D().to(device)  
-Project_folder = "D:\\keti\\zjh\\wl\\" 
+# Project_folder = "D:\\keti\\zjh\\wl\\" 
 model_pth = "F_train_5paras3_2000-[1112].pth"
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')   
 net = torch.load(Project_folder  + model_pth, map_location=DEVICE)
